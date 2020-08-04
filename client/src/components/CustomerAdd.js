@@ -1,5 +1,5 @@
 import React from 'react';
-import {post} from 'axios';
+import {post} from 'axios'; //http 클라이언트 라이브러리(비동기 방식 http 데이터 요청)
 
 class CustomerAdd extends React.Component{
     constructor(props){
@@ -20,6 +20,15 @@ class CustomerAdd extends React.Component{
             .then((response) => {
                 console.log(response.data);
             })
+            this.setState({
+                file: null,
+                userName: '',
+                birth: '',
+                gender: '',
+                job: '',
+                fileName:''
+            })
+            window.location.reload();
     }
 
     handleFileChange = (e) =>{

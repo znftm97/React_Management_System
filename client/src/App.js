@@ -15,7 +15,7 @@ import { withStyles } from '@material-ui/core/styles';
 const styles = theme => ({
  root: {
   width : '100%',
-  overflowX: 'auto'
+  overflowX: 'auto',
  },
  table: {
   minWidth: 1080,
