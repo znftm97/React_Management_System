@@ -20,6 +20,7 @@ class CustomerAdd extends React.Component{
             .then((response) => {
                 console.log(response.data);
                 this.props.stateRefresh();
+                //this.props.stateRefresh(); 테이블만 갱신 코드
             })
         this.setState({
             file: null,
@@ -29,7 +30,7 @@ class CustomerAdd extends React.Component{
             job: '',
             fileName:''
         })
-            
+           
     }
 
     handleFileChange = (e) =>{

@@ -28,7 +28,7 @@ const upload = multer({dest: './upload'});
 
 app.get('/api/customers', (req, res)=> {
   connection.query(
-    "SELECT * FROM CUSTOMER",
+    "SELECT * FROM CUSTOMER WHERE isDeleted=0",
     (err, rows, fields) =>{ // err: 실행중 에러를 나타냄, rows: 접속된 행을 나타냄, fields: 결과 영향을 받은 열에 정보들을 나타냄
       res.send(rows);
     }
@@ -37,7 +37,7 @@ app.get('/api/customers', (req, res)=> {
 
 app.use('/image', express.static('./upload')); // 사용자가 업로드하려는 사진을 볼 수 있게 폴더 공유
 app.post('/api/customers', upload.single('image'), (req, res)=>{
-  let sql = 'INSERT INTO CUSTOMER VALUES (null, ?, ?, ?, ?, ?)';
+  let sql = 'INSERT INTO CUSTOMER VALUES (null, ?, ?, ?, ?, ?, now(), 0)';
   let image = '/image/' + req.file.filename;
   let name = req.body.name;
   let birth = req.body.birth;
@@ -51,5 +51,16 @@ app.post('/api/customers', upload.single('image'), (req, res)=>{
     } 
     );
 });
+
+app.delete('/api/customers/:id', (req, res) => {
+  let sql = 'UPDATE CUSTOMER SET isDeleted = 1 WHERE id = ?';
+  let params = [req.params.id];
+  connection.query(sql, params,
+    (err, rows, fields) => {
+      res.send(rows);
+    }
+   )
+  });
+
 
 app.listen(port, () => console.log(`Listening on port ${port}`));

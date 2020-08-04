@@ -26,27 +26,31 @@ const styles = theme => ({
 })
 
 class App extends React.Component{
- 
- constructor(props){
-    super(props);
-    this.state= {
-       customers: '',
-       completed: 0
-    }
-    this.stateRefresh = this.stateRefresh.bind(this); // this.setState is not a function 오류 해결을 위한 바인딩 , 해결안됨..
-    this.progress = this.progress.bind(this); // this.setState is not a function 오류 해결을 위한 바인딩 , 해결안됨..
- }
 
- //고객 추가 시 전체페이지가 아닌 테이블만 새로고침 하기 위한 함수
- stateRefresh = () => {
-   this.setState= ({
+ constructor(props) {
+   super(props);
+   this.state = {
+      customers: '',
+      completed: 0
+   }
+   this.stateRefresh = this.stateRefresh.bind(this);
+}
+
+   //고객 추가 시 전체페이지가 아닌 테이블만 새로고침 하기 위한 함수  
+stateRefresh() {
+   this.setState({
       customers: '',
       completed: 0
    });
    this.callApi()
       .then(res => this.setState({customers: res}))
       .catch(err => console.log(err));
- }
+}
+ /*
+ state ={
+    customers: "",
+    completed: 0
+ }*/
 
  componentDidMount(){
     this.timer = setInterval(this.progress, 20);
@@ -69,8 +73,8 @@ class App extends React.Component{
 
  render(){
   const {classes} = this.props;
-  return(
-   <div>
+  return( 
+   <div> 
    <Paper className={classes.root}>
 ​    <Table className={classes.table}>
 ​     <TableHead>
@@ -81,11 +85,12 @@ class App extends React.Component{
 ​       <TableCell>생년월일</TableCell>
 ​       <TableCell>성별</TableCell>
 ​       <TableCell>직업</TableCell>
+       <TableCell>설정</TableCell>
 ​      </TableRow>
 ​     </TableHead>
 ​     <TableBody>
 ​      {this.state.customers ? this.state.customers.map(c =>{ 
-         return( <Customer key={c.id} id={c.id} image={c.image} name={c.name} birth={c.birth} gender={c.gender} job={c.job}/>) 
+         return <Customer stateRefresh={this.stateRefresh} key={c.id} id={c.id} image={c.image} name={c.name} birth={c.birth} gender={c.gender} job={c.job}/>
       }) :
       <TableRow>
          <TableCell colSpan="6" align="center">
@@ -97,7 +102,7 @@ class App extends React.Component{
 ​    </Table>
    </Paper>
    <CustomerAdd stateRefresh={this.stateRefresh}/>
-   </div>
+   </div> // <CustomerAdd stateRefresh={this.stateRefresh}/> 테이블만 갱신 코드
   )
  }
 }
