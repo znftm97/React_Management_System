@@ -44,12 +44,10 @@ app.post('/api/customers', upload.single('image'), (req, res)=>{
   let gender = req.body.gender;
   let job = req.body.job;
   let params = [image, name, birth, gender, job];
-  console.log(image);
 
   connection.query(sql, params,
     (err, rows, fileds) => {
       res.send(rows);
-      console.log(err);  
     } 
     );
 });

@@ -26,9 +26,26 @@ const styles = theme => ({
 })
 
 class App extends React.Component{
- state={
-    customers: "",
-    completed: 0
+ 
+ constructor(props){
+    super(props);
+    this.state= {
+       customers: '',
+       completed: 0
+    }
+    this.stateRefresh = this.stateRefresh.bind(this); // this.setState is not a function 오류 해결을 위한 바인딩 , 해결안됨..
+    this.progress = this.progress.bind(this); // this.setState is not a function 오류 해결을 위한 바인딩 , 해결안됨..
+ }
+
+ //고객 추가 시 전체페이지가 아닌 테이블만 새로고침 하기 위한 함수
+ stateRefresh = () => {
+   this.setState= ({
+      customers: '',
+      completed: 0
+   });
+   this.callApi()
+      .then(res => this.setState({customers: res}))
+      .catch(err => console.log(err));
  }
 
  componentDidMount(){
@@ -44,6 +61,7 @@ class App extends React.Component{
     return body;
  }
 
+ // DB에서 데이터 가져오는 동안 테이블에 프로그레스바를 출력
  progress = () => {
     const {completed} = this.state;
     this.setState({completed: completed >=100 ? 0 : completed +1});
@@ -78,7 +96,7 @@ class App extends React.Component{
 ​     </TableBody>
 ​    </Table>
    </Paper>
-   <CustomerAdd/>
+   <CustomerAdd stateRefresh={this.stateRefresh}/>
    </div>
   )
  }
