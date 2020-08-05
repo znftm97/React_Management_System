@@ -46,11 +46,6 @@ stateRefresh() {
       .then(res => this.setState({customers: res}))
       .catch(err => console.log(err));
 }
- /*
- state ={
-    customers: "",
-    completed: 0
- }*/
 
  componentDidMount(){
     this.timer = setInterval(this.progress, 20);
@@ -102,7 +97,7 @@ stateRefresh() {
 ​    </Table>
    </Paper>
    <CustomerAdd stateRefresh={this.stateRefresh}/>
-   </div> // <CustomerAdd stateRefresh={this.stateRefresh}/> 테이블만 갱신 코드
+   </div> 
   )
  }
 }
