@@ -119,14 +119,14 @@ stateRefresh() { // 전체 페이지가 아닌 테이블만 새로고침
       .catch(err => console.log(err));
 }
 
-componentDidMount() {
+componentDidMount() { // 마운트 이후에 실행
    this.timer = setInterval(this.progress, 20);
    this.callApi()
       .then(res => this.setState({customers: res}))
       .catch(err => console.log(err));
 }
 
-componentWillUnmount() {
+componentWillUnmount() { // componentDidMount에서 등록한 이벤트,타이머 등 제거 // 언마운트 전에 반복 중지
    clearInterval(this.timer);
 }
 
